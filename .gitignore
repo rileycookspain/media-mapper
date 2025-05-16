@@ -33,9 +33,18 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# certificates
+*.crt
+certs/*
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# NPM & PNPM
+.npmrc
+.pnpmfile.cjs
+pnpm-lock.yaml
