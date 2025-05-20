@@ -1,6 +1,6 @@
 {
-  "id": "973603bf-d9e7-40b8-a284-a03b64080a49",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "e8d44c4c-3f0c-4c10-b5e8-116a54bf931d",
+  "prevId": "973603bf-d9e7-40b8-a284-a03b64080a49",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -25,7 +25,8 @@
           "name": "updated_at",
           "type": "timestamp (3) with time zone",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         },
         "title": {
           "name": "title",

@@ -1,6 +1,8 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
-import env from '@/env'
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+
+import * as schema from "@/db/schema";
+import env from "@/env";
 
 const {
   DATABASE_HOST: host,
@@ -16,4 +18,4 @@ const connectionString = `postgresql://${user}:${encodeURIComponent(password)}@$
 // { url: env.DATABASE_URL, authToken: env.DATABASE_AUTH_TOKEN }
 const client = postgres(connectionString, { prepare: false });
 
-export const db = drizzle({ client });
+export const db = drizzle({ client, schema });

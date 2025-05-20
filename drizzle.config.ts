@@ -1,17 +1,6 @@
 import { defineConfig } from 'drizzle-kit';
 import env from '@/env';
-
-const {
-  DATABASE_HOST: host,
-  DATABASE_USER: user,
-  DATABASE_NAME: database,
-  DATABASE_PASSWORD: password,
-  DATABASE_PORT: port,
-} = env;
-
-const connectionString = `postgresql://${user}:${encodeURIComponent(password)}@${host}:${port}/${database}?sslmode=require`;
-
-console.log('Connection String:', connectionString);
+import fs from 'fs';
 
 export default defineConfig({
   schema: './src/db/schema.ts',
@@ -19,11 +8,10 @@ export default defineConfig({
   dialect: 'postgresql',
   dbCredentials: {
     url: env.DATABASE_URL,
-    // host: env.DATABASE_HOST,
-    // user: env.DATABASE_USER,
-    // password: env.DATABASE_PASSWORD,
-    // database: env.DATABASE_NAME,
-    // ssl: { rejectUnauthorized: false }, // This disables certificate verification
+    ssl: {
+      ca: fs.readFileSync(env.DATABASE_CA).toString(),
+      rejectUnauthorized: true,
+    }
   },
   schemaFilter: ['public'],
   verbose: true,

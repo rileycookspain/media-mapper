@@ -1,12 +1,36 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-export const books = pgTable('books', {
-  id: serial('id').primaryKey(),
-  createdAt: timestamp('created_at', { mode: 'date', precision: 3, withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { mode: 'date', precision: 3, withTimezone: true }).$onUpdate(() => new Date()),
-  title: text('title').notNull(),
-})
+export const books = pgTable("books", {
+  id: serial("id").primaryKey(),
+  createdAt: timestamp("created_at", {
+    mode: "date",
+    precision: 3,
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", {
+    mode: "date",
+    precision: 3,
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  title: text("title").notNull(),
+});
 
+export const selectBooksSchema = createSelectSchema(books);
+export const insertBooksSchema = createInsertSchema(books, {
+  title: (schema) => schema.min(1).max(500),
+}).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const patchBooksSchema = insertBooksSchema.partial();
 
 // export const usersTable = pgTable('users_table', {
 //   id: serial('id').primaryKey(),
